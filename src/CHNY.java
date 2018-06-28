@@ -1,5 +1,7 @@
 
-import chny.lexico.Hash;
+import misc.Hash;
+import misc.Registro;
+import misc.TablaSimbolos;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,12 +16,11 @@ import chny.lexico.Hash;
 public class CHNY {
     public static void main(String[] args)
     {
-        Hash hash = new Hash();
-        double tuna = hash.hash("int", 500);
-        System.out.println(tuna);
-        System.out.println(hash.hash("double", 500));
-        System.out.println(hash.hash("float", 500));
-        //MainGUI mainGUI = new MainGUI();
-        //mainGUI.setVisible(true);
+        TablaSimbolos tabla = new TablaSimbolos();
+        Registro registro = new Registro(350, "tejon", "boolean", "DIG", "elTunel");
+        tabla.escribir(registro);
+        tabla.leer();
+        MainGUI mainGUI = new MainGUI();
+        mainGUI.setVisible(true);
     }
 }

@@ -13,8 +13,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -37,6 +39,12 @@ public class MainGUI extends JFrame implements ActionListener{
     JButton btnLexico, btnSintactico, btnSemantico, btnLimpiar;
     JScrollPane spCode, spSalida;
     RSyntaxTextArea txtCode;
+    
+    String[] nombresColumnas = {"Token", "Tipo", "Categoria", "Valor"};
+    Object[][] datosSimbolos = new Object[0][3];
+    DefaultTableModel tableModel =  new DefaultTableModel(datosSimbolos, nombresColumnas);
+    JTable tablaSimbolos;
+    JScrollPane spTabla;
    
     public MainGUI()
     {
@@ -68,6 +76,15 @@ public class MainGUI extends JFrame implements ActionListener{
         panelInferior();
     }
     
+        @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource() == btnLexico)
+        {
+            
+        }
+    }
+    
     public void panelCentral()
     {
         JPanel panelCentral = new JPanel();
@@ -75,14 +92,18 @@ public class MainGUI extends JFrame implements ActionListener{
         panelCentral.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         panelCentral.setBackground(Color.white);
 
-        txtCode     = new RSyntaxTextArea(30, 120);
+        txtCode     = new RSyntaxTextArea(30, 80);
         spCode      = new JScrollPane(txtCode);
+        
+        tablaSimbolos = new JTable(tableModel);
+        spTabla = new JScrollPane(tablaSimbolos);
 
         txtCode.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         txtCode.setCodeFoldingEnabled(true);
         RTextScrollPane sp = new RTextScrollPane(txtCode);
 
         panelCentral.add(sp);
+        panelCentral.add(spTabla);
         this.getContentPane().add(panelCentral, BorderLayout.CENTER);
         pack();
     }
@@ -112,11 +133,6 @@ public class MainGUI extends JFrame implements ActionListener{
         
         panelSuperior.add(panelSuperior1, BorderLayout.WEST);
         this.getContentPane().add(panelSuperior, BorderLayout.NORTH);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void panelInferior()
