@@ -11,10 +11,10 @@ package misc;
  */
 public class Hash {
     
-    public int hash(String k, int m)
+    public long hash(String k)
     {
         char ch = k.charAt(0);
-        int val = (int) ch * 128;
+        long val = (long) ch * 128;
         
         if(k.length() > 1)
         {
@@ -23,7 +23,7 @@ public class Hash {
                 val += (char) k.charAt(i);
             }
         }
-        
-        return val % m;
+        System.out.println(val);
+        return val % 500;
     }
 }

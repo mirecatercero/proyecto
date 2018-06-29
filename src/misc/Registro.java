@@ -10,26 +10,28 @@ package misc;
  * @author Jose
  */
 public class Registro {
-    int clave;
+    long clave;
     String token;
     String tipo;
     String categoria;
+    String longitud;
     String valor;    
 
-    public Registro(int clave, String token, String tipo, String categoria, String valor) {
+    public Registro(long clave, String token, String tipo, String longitud, String valor, String categoria) {
         this.clave = clave;
         this.token = token;
         this.tipo = tipo;
-        this.categoria = categoria;
+        this.longitud = longitud;
         this.valor = valor;
+        this.categoria = categoria;
     }
     
-    public int getClave()
+    public long getClave()
     {
         return clave;
     }
     
-    public void setClave(int clave)
+    public void setClave(long clave)
     {
         this.clave = clave;
     }
@@ -56,6 +58,14 @@ public class Registro {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
     public String getValor() {

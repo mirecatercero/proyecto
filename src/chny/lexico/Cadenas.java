@@ -10,8 +10,27 @@ package chny.lexico;
  * @author Jose
  */
 public class Cadenas {
-    public boolean q0()
+    public boolean qo(String c, int pos)
     {
-        return true;
+        String firstP = c.substring(0,1);
+        String lastP = c.substring(pos-1,pos);
+        String comilla = "\"";
+        
+        if (firstP.equals(comilla)&& lastP.equals(comilla))
+        {
+            String cadena = c.substring(1,pos-1);
+            int valid = cadena.indexOf("\"");
+            if (valid ==-1)
+                return true;
+            else return false;
+        } else
+        {
+            return false;
+        
+        }
+    
+        
+
+    
     }
 }
