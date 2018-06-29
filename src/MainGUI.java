@@ -112,7 +112,6 @@ public class MainGUI extends JFrame implements ActionListener{
             salida = "";
             limpiaTabla(tableModel);
             analisisLexico();
-            manejaTabla.leer();
         }
     }
     
@@ -216,6 +215,7 @@ public class MainGUI extends JFrame implements ActionListener{
                     linea += 1;
                 }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))
                 {
+                    analizaToken(token, linea);
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
                     registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());

@@ -23,7 +23,7 @@ public class Hash {
                 val += (char) k.charAt(i);
             }
         }
-        System.out.println(val);
-        return val % 500;
+        System.out.println((val % 500) * 80);
+        return (val % 500) * 80;
     }
 }

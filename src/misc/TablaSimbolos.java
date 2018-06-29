@@ -25,7 +25,6 @@ public class TablaSimbolos {
         {
             tablaSimbolos = new RandomAccessFile("tablaSimbolos", "rw");
             tablaSimbolos.seek(registro.getClave());
-            System.out.println(registro.getClave());
             String linea = tablaSimbolos.readLine();
             if(linea == null)
             {
@@ -39,7 +38,7 @@ public class TablaSimbolos {
                 token.setLength(25);
                 tipo.setLength(7);
                 categoria.setLength(2);
-                valor.setLength(30);
+                valor.setLength(15);
                 
                 //tablaSimbolos.writeLong(registro.getClave());
                 tablaSimbolos.writeChars(token.toString());
@@ -47,7 +46,7 @@ public class TablaSimbolos {
                 tablaSimbolos.writeChars(longitud.toString());
                 tablaSimbolos.writeChars(valor.toString());
                 tablaSimbolos.writeChars(categoria.toString());
-                tablaSimbolos.write(0x0d);
+                //tablaSimbolos.write(0x0d);
             }
         }catch(Exception e)
         {
@@ -63,7 +62,6 @@ public class TablaSimbolos {
             String linea = tablaSimbolos.readLine();
             while(linea != null)
             {
-                System.out.println(linea);
                 linea = tablaSimbolos.readLine();
             }
             tablaSimbolos.close();
