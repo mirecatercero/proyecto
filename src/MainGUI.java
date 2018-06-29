@@ -242,8 +242,10 @@ public class MainGUI extends JFrame implements ActionListener{
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "PR");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
+                    if (!manejaTabla.buscar(clave)) {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
                 }
                 else if(identificadores.q0(token, 0))
                 {
