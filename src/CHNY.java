@@ -1,5 +1,6 @@
 
 import Archivos.Delimitadores;
+import chny.lexico.Cadenas;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,5 +28,7 @@ public class CHNY {
         //tabla.escribir(registro2);
        MainGUI mainGUI = new MainGUI();
        mainGUI.setVisible(true);
+        //Cadenas cadenas = new Cadenas();
+        //boolean t = cadenas.qo(";", ";".length());
     }
 }

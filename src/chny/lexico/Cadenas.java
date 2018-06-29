@@ -11,26 +11,24 @@ package chny.lexico;
  */
 public class Cadenas {
     public boolean qo(String c, int pos)
-    {
-        String firstP = c.substring(0,1);
-        String lastP = c.substring(pos-1,pos);
-        String comilla = "\"";
-        
-        if (firstP.equals(comilla)&& lastP.equals(comilla))
+    {   
+        if(c.length() != 0)
         {
-            String cadena = c.substring(1,pos-1);
-            int valid = cadena.indexOf("\"");
-            if (valid ==-1)
-                return true;
-            else return false;
-        } else
-        {
-            return false;
-        
+            String firstP = c.substring(0,1);
+            String lastP = c.substring(pos-1,pos);
+            String comilla = "\"";            
+            if (firstP.equals(comilla)&& lastP.equals(comilla))
+            {
+                String cadena = c.substring(1,pos-1);
+                int valid = cadena.indexOf("\"");
+                if (valid ==-1)
+                    return true;
+                else return false;
+            }else
+            {
+                return false;
+            }
         }
-    
-        
-
-    
+        return false;
     }
 }
