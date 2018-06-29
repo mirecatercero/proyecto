@@ -209,6 +209,11 @@ public class MainGUI extends JFrame implements ActionListener{
                     analizaToken(token, linea);
                     token = "";
                     linea += 1;
+                }else if(Character.toString(codigo.charAt(i)).equals("#"))
+                {
+                    while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0)
+                        i++;
+                    linea += 1;
                 }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))
                 {
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
@@ -216,7 +221,8 @@ public class MainGUI extends JFrame implements ActionListener{
                     agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                     manejaTabla.escribir(registro);
                     token = "";
-                }else
+                }
+                else
                     token += Character.toString(codigo.charAt(i));
                 i++;
             }catch(Exception e)
