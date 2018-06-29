@@ -1,4 +1,8 @@
 
+import Archivos.Delimitadores;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import misc.Hash;
 import misc.Registro;
 import misc.TablaSimbolos;
@@ -16,11 +20,12 @@ import misc.TablaSimbolos;
 public class CHNY {
     public static void main(String[] args)
     {
-        TablaSimbolos tabla = new TablaSimbolos();
-        Registro registro = new Registro(350, "tejon", "boolean", "DIG", "elTunel");
-        tabla.escribir(registro);
-        tabla.leer();
-        MainGUI mainGUI = new MainGUI();
-        mainGUI.setVisible(true);
+        //TablaSimbolos tabla = new TablaSimbolos();
+        //Registro registro = new Registro(350, "tuna", "", "", "", "ID");
+        //tabla.escribir(registro);
+        //Registro registro2 = new Registro(610, "String", "", "", "", "PR");
+        //tabla.escribir(registro2);
+       MainGUI mainGUI = new MainGUI();
+       mainGUI.setVisible(true);
     }
 }
