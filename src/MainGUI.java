@@ -211,10 +211,11 @@ public class MainGUI extends JFrame implements ActionListener{
                     linea += 1;
                 }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))
                 {
-                    clave = hash.hash(token);
-                    registro = new Registro(clave, token, "", "", "", "DE");
+                    clave = hash.hash(Character.toString(codigo.charAt(i)));
+                    registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                     manejaTabla.escribir(registro);
+                    token = "";
                 }else
                     token += Character.toString(codigo.charAt(i));
                 i++;
@@ -260,6 +261,12 @@ public class MainGUI extends JFrame implements ActionListener{
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "OP");
+                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                    manejaTabla.escribir(registro);
+                }else if(cadenas.qo(token, token.length()))
+                {
+                    clave = hash.hash(token);
+                    registro = new Registro(clave, token, "String", "", "", "CA");
                     agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                     manejaTabla.escribir(registro);
                 }else if(token.compareTo("") != 0)
