@@ -111,7 +111,10 @@ public class MainGUI extends JFrame implements ActionListener{
         {
             salida = "";
             limpiaTabla(tableModel);
-            analisisLexico();
+            //analisisLexico();
+            TablaSimbolos tablon = new TablaSimbolos();
+            tablon.leer();
+            tablon.khe(10);
         }
     }
     
@@ -242,10 +245,10 @@ public class MainGUI extends JFrame implements ActionListener{
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "PR");
-                    if (!manejaTabla.buscar(clave)) {
+                    //if (!manejaTabla.buscar(clave)) {
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
-                    }
+                    //}
                 }
                 else if(identificadores.q0(token, 0))
                 {
