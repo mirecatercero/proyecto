@@ -111,10 +111,7 @@ public class MainGUI extends JFrame implements ActionListener{
         {
             salida = "";
             limpiaTabla(tableModel);
-            //analisisLexico();
-            TablaSimbolos tablon = new TablaSimbolos();
-            tablon.leer();
-            tablon.khe(10);
+            analisisLexico();
         }
     }
     
@@ -188,10 +185,11 @@ public class MainGUI extends JFrame implements ActionListener{
     
     public void analisisLexico()
     {
+        //recupera el código
         codigo = txtCode.getText();
         int i =0;
         linea = 1;
-        token = "";
+        token = "";//inicializa token como cadena vacía para forzar la primer validación
         long clave;
         
         do
@@ -202,37 +200,40 @@ public class MainGUI extends JFrame implements ActionListener{
                 {
                     analizaToken(token, linea);
                     token = "";
-                }else if(Character.toString(codigo.charAt(i)).equals(" "))
+                }else if(Character.toString(codigo.charAt(i)).equals(" "))//si encuentra un espacio en blanco, analiza el token antes de ese espacio
                 {
                     analizaToken(token, linea);
                     token = "";
-                }else if(Character.toString(codigo.charAt(i)).equals("\n"))
+                }else if(Character.toString(codigo.charAt(i)).equals("\n"))//si encuentra un salto de linea, analiza el token antes de ese salto
                 {
                     analizaToken(token, linea);
                     token = "";
                     linea += 1;
-                }else if(Character.toString(codigo.charAt(i)).equals("#"))
+                }else if(Character.toString(codigo.charAt(i)).equals("#"))//si encuentra un comentario, lo excluye del análisis
                 {
-                    while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0)
+                    while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0)//recorre los caracteres del comentario hasta que encuentra un salgo de linea
                         i++;
                     linea += 1;
-                }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))
+                }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
                     analizaToken(token, linea);
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
                     registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
                     token = "";
                 }
                 else
-                    token += Character.toString(codigo.charAt(i));
+                    token += Character.toString(codigo.charAt(i));//si nada de lo anterior se cumple, se concatena el token con el caracter del codigo en la posicion i
                 i++;
             }catch(Exception e)
             {
                 e.printStackTrace();
             }
-        }while(i <= codigo.length());
+        }while(i <= codigo.length());//mientras aún haya caracteres por analizar el ciclo continua
         txtSalida.setText(salida);
     }
     
@@ -241,46 +242,61 @@ public class MainGUI extends JFrame implements ActionListener{
         long clave;
         try
         {
-            if(palabrasReservadas.validar(token))
+            if(palabrasReservadas.validar(token))//si el token analizado es una palabra reservada, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "PR");
-                    //if (!manejaTabla.buscar(clave)) {
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
-                    //}
+                    }
                 }
-                else if(identificadores.q0(token, 0))
+                else if(identificadores.q0(token, 0))//si el token analizado es un identificador, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "ID");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
-                }else if(enteros.qo(token, 0))
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
+                }else if(enteros.qo(token, 0))//si el token analizado es un numero entero, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "int", "4", "", "DG");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
-                }else if(flotantes.q0(token, 0))
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
+                }else if(flotantes.q0(token, 0))//si el token analizado es un numero con punto flotante, lo mete a la tabla
                 {
                     clave = hash.hash(token);
-                    registro = new Registro(clave, token, "float", "8", "", "DG");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());    
-                    manejaTabla.escribir(registro);
-                }else if(operadores.validar(token))
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
+                }else if(operadores.validar(token))//si el token analizado es un operador, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "OP");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
-                }else if(cadenas.qo(token, token.length()))
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
+                }else if(cadenas.qo(token, token.length()))//si el token analizado es una cadena, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "String", "", "", "CA");
-                    agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
-                    manejaTabla.escribir(registro);
-                }else if(token.compareTo("") != 0)
+                    if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
+                    {
+                         agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
+                         manejaTabla.escribir(registro);
+                    }
+                }else if(token.compareTo("") != 0)//si nada de lo anterior se cumple y el token no es una cadena vacia, entonces hay un error léxico
                 {
                     salida += "Error en linea " + linea + ": " + token + " no forma parte del lenguaje\n";
                     linea += 1;
@@ -295,6 +311,23 @@ public class MainGUI extends JFrame implements ActionListener{
     {
         Object[] fila = {token, tipo, categoria, longitud, valor};
         tableModel.addRow(fila);
+    }
+    
+    public boolean buscaTabla(DefaultTableModel tableModel, Registro registro)
+    {
+        boolean existe = false;
+        if(tableModel.getRowCount() == 0)
+            return existe;
+        else
+        {
+            for(int i = 0; i < tableModel.getRowCount(); i ++)
+            {
+                System.out.println(registro.getToken().equals(tableModel.getValueAt(i, 0)));
+                if(registro.getToken().equals(tableModel.getValueAt(i, 0)))
+                    existe = true;
+            }
+        }
+        return existe;
     }
     
     public void limpiaTabla(DefaultTableModel tableModel)
