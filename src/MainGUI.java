@@ -322,7 +322,6 @@ public class MainGUI extends JFrame implements ActionListener{
         {
             for(int i = 0; i < tableModel.getRowCount(); i ++)
             {
-                System.out.println(registro.getToken().equals(tableModel.getValueAt(i, 0)));
                 if(registro.getToken().equals(tableModel.getValueAt(i, 0)))
                     existe = true;
             }

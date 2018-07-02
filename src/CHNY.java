@@ -21,16 +21,7 @@ import misc.TablaSimbolos;
 public class CHNY {
     public static void main(String[] args)
     {
-        //TablaSimbolos tabla = new TablaSimbolos();
-        //Registro registro = new Registro(350, "tuna", "", "", "", "ID");
-        //tabla.escribir(registro);
-        //Registro registro2 = new Registro(610, "String", "", "", "", "PR");
-        //tabla.escribir(registro2);
         MainGUI mainGUI = new MainGUI();
         mainGUI.setVisible(true);
-        //TablaSimbolos tabla = new TablaSimbolos();
-        //tabla.leer(13280);
-        //Registro registro = new Registro(13760, "String", "", "", "", "PR");
-        //System.out.println(tabla.buscar(registro));
     }
 }
