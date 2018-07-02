@@ -86,7 +86,7 @@ public class TablaSimbolos {
                     int i = 0;
                     do
                     {
-                        if(Character.isAlphabetic(linea.charAt(i)))
+                        if((int) linea.charAt(i) != 0)
                             token += Character.toString(linea.charAt(i));
                         i++;
                     }while(!Character.toString(linea.charAt(i)).equals(" "));
