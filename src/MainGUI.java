@@ -224,13 +224,14 @@ public class MainGUI extends JFrame implements ActionListener{
                     while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0 && i < codigo.length() - 1)//recorre los caracteres del comentario hasta que encuentra un salgo de linea
                         i++;
                     linea += 1;
-                }else if(Character.toString(codigo.charAt(i)).equals("\""))
+                }else if(Character.toString(codigo.charAt(i)).equals("\"") && token.compareTo("") == 0)
                 {
+                    boolean salida = false;
                     token += Character.toString(codigo.charAt(i));//Si encuentra comillas dobles, asigna texto al token hasta que encuentre otras comillas, un salto de linea, o se termine el código
                     i++;
                     if(i < codigo.length())
                     {
-                        while(Character.toString(codigo.charAt(i)).compareTo("\"") != 0 && Character.toString(codigo.charAt(i)).compareTo("\n") != 0 && i < codigo.length() )
+                        while(Character.toString(codigo.charAt(i)).compareTo("\"") != 0 && Character.toString(codigo.charAt(i)).compareTo("\n") != 0 && i < codigo.length())
                         {
                             if(Character.toString(codigo.charAt(i)).equals("\""))
                             {
