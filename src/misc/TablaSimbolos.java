@@ -84,12 +84,23 @@ public class TablaSimbolos {
                     String token = "";
                     String linea = tablaSimbolos.readLine();
                     int i = 0;
-                    do
+                    if(Character.toString(linea.charAt(i)).equals("\""))
                     {
-                        if((int) linea.charAt(i) != 0)
-                            token += Character.toString(linea.charAt(i));
-                        i++;
-                    }while(!Character.toString(linea.charAt(i)).equals(" "));
+                        do
+                        {
+                            if((int) linea.charAt(i) != 0)
+                                token += Character.toString(linea.charAt(i));
+                            i++;
+                        }while(!Character.toString(linea.charAt(i)).equals("\""));
+                    }else
+                    {
+                        do
+                        {
+                            if((int) linea.charAt(i) != 0)
+                                token += Character.toString(linea.charAt(i));
+                            i++;
+                        }while(!Character.toString(linea.charAt(i)).equals(" "));
+                    }
                     if(token.indexOf(registro.getToken()) != -1)
                         return true;
                     else return false;

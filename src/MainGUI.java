@@ -27,6 +27,8 @@ import chny.lexico.Cadenas;
 import chny.lexico.Enteros;
 import chny.lexico.Flotantes;
 import chny.lexico.Identificadores;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.table.TableModel;
 import misc.Registro;
 import misc.Hash;
@@ -102,6 +104,13 @@ public class MainGUI extends JFrame implements ActionListener{
         panelSuperior();
         panelCentral();
         panelInferior();
+        
+        this.addWindowListener(new WindowAdapter() {
+            public void     windowOpened(WindowEvent e)
+            {
+                txtCode.requestFocus();
+            }
+        });
     }
     
         @Override
@@ -135,6 +144,7 @@ public class MainGUI extends JFrame implements ActionListener{
         panelCentral.add(sp);
         panelCentral.add(spTabla);
         this.getContentPane().add(panelCentral, BorderLayout.CENTER);
+        
         pack();
     }
     
@@ -211,10 +221,50 @@ public class MainGUI extends JFrame implements ActionListener{
                     linea += 1;
                 }else if(Character.toString(codigo.charAt(i)).equals("#"))//si encuentra un comentario, lo excluye del análisis
                 {
-                    while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0)//recorre los caracteres del comentario hasta que encuentra un salgo de linea
+                    while(Character.toString(codigo.charAt(i)).compareTo("\n") != 0 && i < codigo.length() - 1)//recorre los caracteres del comentario hasta que encuentra un salgo de linea
                         i++;
                     linea += 1;
-                }else if(delimitadores.validar(Character.toString(codigo.charAt(i))))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
+                }else if(Character.toString(codigo.charAt(i)).equals("\"") && token.compareTo("") == 0)
+                {
+                    boolean salida = false;
+                    token += Character.toString(codigo.charAt(i));//Si encuentra comillas dobles, asigna texto al token hasta que encuentre otras comillas, un salto de linea, o se termine el código
+                    i++;
+                    if(i < codigo.length())
+                    {
+                        while(Character.toString(codigo.charAt(i)).compareTo("\"") != 0 && Character.toString(codigo.charAt(i)).compareTo("\n") != 0 && i < codigo.length())
+                        {
+                            if(Character.toString(codigo.charAt(i)).equals("\""))
+                            {
+                                token += Character.toString(codigo.charAt(i));
+                                break;
+                            }
+                            else if(Character.toString(codigo.charAt(i)).equals("\n"))
+                            {
+                                break;
+                            }
+                            else if(i == codigo.length() - 1)
+                            {
+                                token += Character.toString(codigo.charAt(i));
+                                break;
+                            }
+                            else
+                            {
+                                token += Character.toString(codigo.charAt(i));
+                                i++;
+                                if(Character.toString(codigo.charAt(i)).equals("\""))
+                                    token += Character.toString(codigo.charAt(i));
+                            }
+                        }
+                    }
+                    analizaToken(token, linea);
+                    token = "" ;
+                    if(i < codigo.length())
+                    {
+                        if(Character.toString(codigo.charAt(i)).equals("\n"))
+                            linea += 1;
+                    }
+                }
+                else if(delimitadores.validar(Character.toString(codigo.charAt(i))))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
                     analizaToken(token, linea);
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
@@ -273,6 +323,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 }else if(flotantes.q0(token, 0))//si el token analizado es un numero con punto flotante, lo mete a la tabla
                 {
                     clave = hash.hash(token);
+                    registro = new Registro(clave, token, "float", "8", "", "DG");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
                     {
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
@@ -287,7 +338,8 @@ public class MainGUI extends JFrame implements ActionListener{
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
                     }
-                }else if(cadenas.qo(token, token.length()))//si el token analizado es una cadena, lo mete a la tabla
+                }
+                else if(cadenas.qo(token, token.length()))//si el token analizado es una cadena, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "String", "", "", "CA");
@@ -296,7 +348,8 @@ public class MainGUI extends JFrame implements ActionListener{
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
                     }
-                }else if(token.compareTo("") != 0)//si nada de lo anterior se cumple y el token no es una cadena vacia, entonces hay un error léxico
+                }
+                else if(token.compareTo("") != 0)//si nada de lo anterior se cumple y el token no es una cadena vacia, entonces hay un error léxico
                 {
                     salida += "Error en linea " + linea + ": " + token + " no forma parte del lenguaje\n";
                     linea += 1;
