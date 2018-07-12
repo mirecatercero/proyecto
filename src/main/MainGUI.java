@@ -413,4 +413,8 @@ public class MainGUI extends JFrame implements ActionListener{
             System.out.println("Correcto");
         else System.out.println("Todo mal");
     }
+    
+    public void tejona()
+    {
+    }
 }
