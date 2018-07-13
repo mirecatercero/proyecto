@@ -16,7 +16,6 @@ public class TablaSimbolos {
     
     public TablaSimbolos()
     {
-        
     }
     
     public void escribir(Registro registro)
@@ -112,5 +111,18 @@ public class TablaSimbolos {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public void limpiaArchivo()
+    {
+        try
+        {
+            tablaSimbolos = new RandomAccessFile("tablaSimbolos", "rw");
+            tablaSimbolos.setLength(0);
+            tablaSimbolos.close();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

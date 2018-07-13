@@ -27,8 +27,9 @@ public class Cadenas {
                 int valid = cadena.indexOf("\"");
                 if (valid ==-1)
                 {
-                    lexema = new Lexema(901, cadena, 0);
+                    lexema = new Lexema(39, cadena, 0);
                     MainGUI.lexemas += lexema.getID() + " ";
+                    MainGUI.pila.push(lexema);
                     return true;
                 }
                 else return false;

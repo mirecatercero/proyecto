@@ -80,8 +80,9 @@ public class Flotantes {
                     return false;
             }
         }
-        lexema = new Lexema(701, c, 0);
+        lexema = new Lexema(38, c, 0);
         MainGUI.lexemas += lexema.getID() + " ";
+        MainGUI.pila.push(lexema);
         return true;
     }
     

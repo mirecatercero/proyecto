@@ -35,7 +35,7 @@ import java.util.Stack;
 import misc.Registro;
 import misc.Hash;
 import misc.TablaSimbolos;
-import sintactico.AutomataPila;
+import sintactico.AnalizadorSintactico;
 import sintactico.Lexema;
 
 /*
@@ -79,10 +79,10 @@ public class MainGUI extends JFrame implements ActionListener{
     Identificadores identificadores = new Identificadores();
     Hash hash = new Hash();
     TablaSimbolos manejaTabla = new TablaSimbolos();
+    AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
     
     public static Stack<Lexema> pila = new Stack<Lexema>();
     public static String lexemas = "";
-    AutomataPila automataPila = new AutomataPila();
     
     public MainGUI()
     {
@@ -119,6 +119,8 @@ public class MainGUI extends JFrame implements ActionListener{
                 txtCode.requestFocus();
             }
         });
+        
+        manejaTabla.limpiaArchivo();
     }
     
         @Override
@@ -130,17 +132,18 @@ public class MainGUI extends JFrame implements ActionListener{
             {
                 salida = "";
                 limpiaTabla(tableModel);
+                manejaTabla.limpiaArchivo();
+                pila.clear();
                 analisisLexico();
                 //analisisSintactico(pila);
-                System.out.println(lexemas);
+                //System.out.println(lexemas);
             }catch(Exception ex)
             {
                 ex.printStackTrace();
             }
         }else if(e.getSource() == btnSintactico)
         {
-            System.out.println("Sintactico");
-            //analisisSintactico(pila);
+            analizadorSintactico.analisisSintactico(pila);
         }
     }
     
@@ -285,13 +288,19 @@ public class MainGUI extends JFrame implements ActionListener{
                             linea += 1;
                     }
                 }else if(Character.toString(codigo.charAt(i)).equals("\t"))
+                {
                     i++;
+                    token += Character.toString(codigo.charAt(i));
+                }
                 else if(delimitadores.validar(Character.toString(codigo.charAt(i)), linea))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
                     analizaToken(token, linea);
-                    String[] lexema = delimitadores.buscaLexema(Character.toString(codigo.charAt(i)));
-                    if(lexema != null)
-                        lexemas += lexema[1] + " ";
+                    String[] lex = delimitadores.buscaLexema(Character.toString(codigo.charAt(i)));
+                    if(lex != null)
+                    {
+                        Lexema lexema = new Lexema(Integer.parseInt(lex[1]), lex[0], linea);
+                        pila.push(lexema);
+                    }
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
                     registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
@@ -410,18 +419,5 @@ public class MainGUI extends JFrame implements ActionListener{
     public void limpiaTabla(DefaultTableModel tableModel)
     {
         tableModel.setRowCount(0);
-    }
-    
-    public void analisisSintactico(Stack<Lexema> pila)
-    {
-//        while(!pila.empty())
-//            System.out.println(pila.pop().getToken());
-        if(automataPila.q0(pila))
-            System.out.println("Correcto");
-        else System.out.println("Todo mal");
-    }
-    
-    public void tejona()
-    {
     }
 }
