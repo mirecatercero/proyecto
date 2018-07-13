@@ -7,6 +7,8 @@ package Archivos;
 
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
+import main.MainGUI;
+import sintactico.Lexema;
 
 /**
  *
@@ -15,8 +17,10 @@ import java.io.RandomAccessFile;
 public class Operadores {
     RandomAccessFile operadores;
     String linea;
+    String[] separado;
+    Lexema lexema;
     
-    public boolean validar(String c) throws FileNotFoundException
+    public boolean validar(String c, int l) throws FileNotFoundException
     {
         try
         {
@@ -24,8 +28,17 @@ public class Operadores {
            linea = operadores.readLine();
            while(linea != null)
            {
-               if(linea.equals(c))
-                   return linea.equals(c);
+               separado = linea.split(" ");
+               lexema = new Lexema(Integer.parseInt(separado[1]), separado[0], l);
+               if(lexema.getToken().equals(c))
+               {
+                   if(lexema.getToken().equals(c))
+                   {
+                       MainGUI.lexemas += lexema.getID() + " ";
+                       MainGUI.pila.push(lexema);
+                       return true;
+                   }
+               }
                else
                    linea = operadores.readLine();
            }

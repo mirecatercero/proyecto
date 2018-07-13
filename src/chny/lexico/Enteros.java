@@ -5,12 +5,17 @@
  */
 package chny.lexico;
 
+import sintactico.Lexema;
+import main.MainGUI;
+
 /**
  *
  * @author Jose
  */
 public class Enteros
 {
+    Lexema lexema;
+    
     public boolean qo(String c, int pos)
     {
         if(pos < c.length())
@@ -74,6 +79,8 @@ public class Enteros
                     return false;
             }
         }
+        lexema = new Lexema(601, c, 0);
+        MainGUI.lexemas += lexema.getID() + " ";
         return true;
     }
 }

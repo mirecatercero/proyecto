@@ -1,3 +1,5 @@
+package main;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,10 +31,12 @@ import chny.lexico.Flotantes;
 import chny.lexico.Identificadores;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.table.TableModel;
+import java.util.Stack;
 import misc.Registro;
 import misc.Hash;
 import misc.TablaSimbolos;
+import sintactico.AutomataPila;
+import sintactico.Lexema;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -75,7 +79,11 @@ public class MainGUI extends JFrame implements ActionListener{
     Identificadores identificadores = new Identificadores();
     Hash hash = new Hash();
     TablaSimbolos manejaTabla = new TablaSimbolos();
-   
+    
+    public static Stack<Lexema> pila = new Stack<Lexema>();
+    public static String lexemas = "";
+    AutomataPila automataPila = new AutomataPila();
+    
     public MainGUI()
     {
         this.setTitle("Analizador Léxico");
@@ -118,9 +126,21 @@ public class MainGUI extends JFrame implements ActionListener{
     {
         if(e.getSource() == btnLexico)
         {
-            salida = "";
-            limpiaTabla(tableModel);
-            analisisLexico();
+            try
+            {
+                salida = "";
+                limpiaTabla(tableModel);
+                analisisLexico();
+                //analisisSintactico(pila);
+                System.out.println(lexemas);
+            }catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }else if(e.getSource() == btnSintactico)
+        {
+            System.out.println("Sintactico");
+            //analisisSintactico(pila);
         }
     }
     
@@ -165,6 +185,7 @@ public class MainGUI extends JFrame implements ActionListener{
         btnLimpiar = new JButton("Limpiar");
         
         btnLexico.addActionListener(this);
+        btnSintactico.addActionListener(this);
         
         panelSuperior1.add(btnLexico);
         panelSuperior1.add(btnSintactico);
@@ -217,6 +238,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 }else if(Character.toString(codigo.charAt(i)).equals("\n"))//si encuentra un salto de linea, analiza el token antes de ese salto
                 {
                     analizaToken(token, linea);
+                    lexemas += "\n";
                     token = "";
                     linea += 1;
                 }else if(Character.toString(codigo.charAt(i)).equals("#"))//si encuentra un comentario, lo excluye del análisis
@@ -226,7 +248,6 @@ public class MainGUI extends JFrame implements ActionListener{
                     linea += 1;
                 }else if(Character.toString(codigo.charAt(i)).equals("\"") && token.compareTo("") == 0)
                 {
-                    boolean salida = false;
                     token += Character.toString(codigo.charAt(i));//Si encuentra comillas dobles, asigna texto al token hasta que encuentre otras comillas, un salto de linea, o se termine el código
                     i++;
                     if(i < codigo.length())
@@ -263,10 +284,14 @@ public class MainGUI extends JFrame implements ActionListener{
                         if(Character.toString(codigo.charAt(i)).equals("\n"))
                             linea += 1;
                     }
-                }
-                else if(delimitadores.validar(Character.toString(codigo.charAt(i))))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
+                }else if(Character.toString(codigo.charAt(i)).equals("\t"))
+                    i++;
+                else if(delimitadores.validar(Character.toString(codigo.charAt(i)), linea))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
                     analizaToken(token, linea);
+                    String[] lexema = delimitadores.buscaLexema(Character.toString(codigo.charAt(i)));
+                    if(lexema != null)
+                        lexemas += lexema[1] + " ";
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
                     registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
@@ -292,7 +317,7 @@ public class MainGUI extends JFrame implements ActionListener{
         long clave;
         try
         {
-            if(palabrasReservadas.validar(token))//si el token analizado es una palabra reservada, lo mete a la tabla
+            if(palabrasReservadas.validar(token, linea))//si el token analizado es una palabra reservada, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "PR");
@@ -302,7 +327,7 @@ public class MainGUI extends JFrame implements ActionListener{
                          manejaTabla.escribir(registro);
                     }
                 }
-                else if(identificadores.q0(token, 0))//si el token analizado es un identificador, lo mete a la tabla
+                else if(identificadores.q0(token, 0, linea))//si el token analizado es un identificador, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "ID");
@@ -329,7 +354,7 @@ public class MainGUI extends JFrame implements ActionListener{
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
                     }
-                }else if(operadores.validar(token))//si el token analizado es un operador, lo mete a la tabla
+                }else if(operadores.validar(token, linea))//si el token analizado es un operador, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "", "", "", "OP");
@@ -385,5 +410,18 @@ public class MainGUI extends JFrame implements ActionListener{
     public void limpiaTabla(DefaultTableModel tableModel)
     {
         tableModel.setRowCount(0);
+    }
+    
+    public void analisisSintactico(Stack<Lexema> pila)
+    {
+//        while(!pila.empty())
+//            System.out.println(pila.pop().getToken());
+        if(automataPila.q0(pila))
+            System.out.println("Correcto");
+        else System.out.println("Todo mal");
+    }
+    
+    public void tejona()
+    {
     }
 }

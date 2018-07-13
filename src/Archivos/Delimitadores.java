@@ -5,8 +5,11 @@
  */
 package Archivos;
 
+import main.MainGUI;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
+import sintactico.Lexema;
+import main.MainGUI;
 
 /**
  *
@@ -15,8 +18,10 @@ import java.io.RandomAccessFile;
 public class Delimitadores {
     RandomAccessFile delimitadores;
     String linea;
+    String[] separado;
+    Lexema lexema;
     
-    public boolean validar(String c) throws FileNotFoundException
+    public boolean validar(String c, int l) throws FileNotFoundException
     {
         try
         {
@@ -24,8 +29,16 @@ public class Delimitadores {
            linea = delimitadores.readLine();
            while(linea != null)
            {
-               if(linea.equals(c))
-                   return linea.equals(c);
+               separado = linea.split(" ");
+               lexema = new Lexema(Integer.parseInt(separado[1]), separado[0], l);
+               if(lexema.getToken().equals(c))
+               {
+                   if(lexema.getToken().equals(c))
+                   {
+                       //MainGUI.pila.push(lexema);
+                       return true;
+                   }
+               }
                else
                    linea = delimitadores.readLine();
            }
@@ -44,5 +57,28 @@ public class Delimitadores {
             }
         }
         return false;
+    }
+    
+    public String[] buscaLexema(String token) throws Exception
+    {
+        try
+        {
+            delimitadores = new RandomAccessFile("delimitadores", "r");
+            linea = delimitadores.readLine();
+            while(linea != null)
+            {
+                separado = linea.split(" ");
+                lexema = new Lexema(Integer.parseInt(separado[1]), separado[0], 0);
+                if(lexema.getToken().equals(token))
+                {
+                    return separado;
+                }
+                else linea = delimitadores.readLine();
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
