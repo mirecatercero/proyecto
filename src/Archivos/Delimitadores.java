@@ -33,11 +33,8 @@ public class Delimitadores {
                lexema = new Lexema(Integer.parseInt(separado[1]), separado[0], l);
                if(lexema.getToken().equals(c))
                {
-                   if(lexema.getToken().equals(c))
-                   {
                        //MainGUI.pila.push(lexema);
                        return true;
-                   }
                }
                else
                    linea = delimitadores.readLine();

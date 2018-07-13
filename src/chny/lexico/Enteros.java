@@ -79,8 +79,9 @@ public class Enteros
                     return false;
             }
         }
-        lexema = new Lexema(601, c, 0);
+        lexema = new Lexema(37, c, 0);
         MainGUI.lexemas += lexema.getID() + " ";
+        MainGUI.pila.push(lexema);
         return true;
     }
 }
