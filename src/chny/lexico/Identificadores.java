@@ -147,6 +147,7 @@ public class Identificadores {
             }
         }
         lexema = new Lexema(401, c, linea);
+        MainGUI.lexemas += lexema.getID() + " ";
         MainGUI.pila.push(lexema);
         return true;
     }

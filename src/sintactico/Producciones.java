@@ -5,16 +5,11 @@
  */
 package sintactico;
 
-import java.util.Stack;
-
 /**
  *
  * @author Jose
  */
-public class SintacticalAnalyzer {
-    public static Stack<Lexema> pila;
-    
-    public static While awhile = new While();
-    public static Condicion acondicion = new Condicion();
+public class Producciones {
+    int producciones[][] = new int[39][39];
     
 }

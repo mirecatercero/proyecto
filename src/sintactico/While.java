@@ -6,6 +6,7 @@
 package sintactico;
 
 import java.util.Stack;
+import sintactico.SintacticalAnalyzer;
 
 /**
  *
@@ -59,6 +60,7 @@ public class While
             if(lexema.getID() == 105)
             {
                 pila.pop();
+                SintacticalAnalyzer.acondicion.q0(SintacticalAnalyzer.pila);
             }
         }
         return false;

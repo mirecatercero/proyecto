@@ -34,6 +34,7 @@ public class Operadores {
                {
                    if(lexema.getToken().equals(c))
                    {
+                       MainGUI.lexemas += lexema.getID() + " ";
                        MainGUI.pila.push(lexema);
                        return true;
                    }

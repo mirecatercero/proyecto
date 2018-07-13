@@ -5,11 +5,16 @@
  */
 package chny.lexico;
 
+import sintactico.Lexema;
+import main.MainGUI;
+
 /**
  *
  * @author Jose
  */
 public class Flotantes {
+    Lexema lexema;
+    
     public boolean q0(String c, int pos)
     {
         if(pos < c.length())
@@ -45,7 +50,7 @@ public class Flotantes {
     
     private boolean q1(String c, int pos)
     {
-                if(pos < c.length())
+        if(pos < c.length())
         {
             switch(c.substring(pos, pos + 1))
             {
@@ -75,6 +80,8 @@ public class Flotantes {
                     return false;
             }
         }
+        lexema = new Lexema(701, c, 0);
+        MainGUI.lexemas += lexema.getID() + " ";
         return true;
     }
     

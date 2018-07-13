@@ -81,6 +81,7 @@ public class MainGUI extends JFrame implements ActionListener{
     TablaSimbolos manejaTabla = new TablaSimbolos();
     
     public static Stack<Lexema> pila = new Stack<Lexema>();
+    public static String lexemas = "";
     AutomataPila automataPila = new AutomataPila();
     
     public MainGUI()
@@ -130,7 +131,8 @@ public class MainGUI extends JFrame implements ActionListener{
                 salida = "";
                 limpiaTabla(tableModel);
                 analisisLexico();
-                analisisSintactico(pila);
+                //analisisSintactico(pila);
+                System.out.println(lexemas);
             }catch(Exception ex)
             {
                 ex.printStackTrace();
@@ -138,7 +140,7 @@ public class MainGUI extends JFrame implements ActionListener{
         }else if(e.getSource() == btnSintactico)
         {
             System.out.println("Sintactico");
-            analisisSintactico(pila);
+            //analisisSintactico(pila);
         }
     }
     
@@ -183,6 +185,7 @@ public class MainGUI extends JFrame implements ActionListener{
         btnLimpiar = new JButton("Limpiar");
         
         btnLexico.addActionListener(this);
+        btnSintactico.addActionListener(this);
         
         panelSuperior1.add(btnLexico);
         panelSuperior1.add(btnSintactico);
@@ -235,6 +238,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 }else if(Character.toString(codigo.charAt(i)).equals("\n"))//si encuentra un salto de linea, analiza el token antes de ese salto
                 {
                     analizaToken(token, linea);
+                    lexemas += "\n";
                     token = "";
                     linea += 1;
                 }else if(Character.toString(codigo.charAt(i)).equals("#"))//si encuentra un comentario, lo excluye del análisis
@@ -285,6 +289,9 @@ public class MainGUI extends JFrame implements ActionListener{
                 else if(delimitadores.validar(Character.toString(codigo.charAt(i)), linea))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
                     analizaToken(token, linea);
+                    String[] lexema = delimitadores.buscaLexema(Character.toString(codigo.charAt(i)));
+                    if(lexema != null)
+                        lexemas += lexema[1] + " ";
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
                     registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))

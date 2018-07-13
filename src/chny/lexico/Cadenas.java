@@ -5,11 +5,15 @@
  */
 package chny.lexico;
 
+import sintactico.Lexema;
+import main.MainGUI;
+
 /**
  *
  * @author Jose
  */
 public class Cadenas {
+    Lexema lexema;
     public boolean qo(String c, int pos)
     {   
         if(c.length() != 0)
@@ -22,7 +26,11 @@ public class Cadenas {
                 String cadena = c.substring(1,pos-1);
                 int valid = cadena.indexOf("\"");
                 if (valid ==-1)
+                {
+                    lexema = new Lexema(901, cadena, 0);
+                    MainGUI.lexemas += lexema.getID() + " ";
                     return true;
+                }
                 else return false;
             }else
             {

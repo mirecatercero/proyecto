@@ -35,7 +35,7 @@ public class Delimitadores {
                {
                    if(lexema.getToken().equals(c))
                    {
-                       MainGUI.pila.push(lexema);
+                       //MainGUI.pila.push(lexema);
                        return true;
                    }
                }
@@ -57,5 +57,28 @@ public class Delimitadores {
             }
         }
         return false;
+    }
+    
+    public String[] buscaLexema(String token) throws Exception
+    {
+        try
+        {
+            delimitadores = new RandomAccessFile("delimitadores", "r");
+            linea = delimitadores.readLine();
+            while(linea != null)
+            {
+                separado = linea.split(" ");
+                lexema = new Lexema(Integer.parseInt(separado[1]), separado[0], 0);
+                if(lexema.getToken().equals(token))
+                {
+                    return separado;
+                }
+                else linea = delimitadores.readLine();
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
