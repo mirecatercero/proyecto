@@ -79,7 +79,6 @@ public class MainGUI extends JFrame implements ActionListener{
     Identificadores identificadores = new Identificadores();
     Hash hash = new Hash();
     TablaSimbolos manejaTabla = new TablaSimbolos();
-    AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
     
     public static Stack<Lexema> pila = new Stack<Lexema>();
     public static String lexemas = "";
@@ -143,6 +142,7 @@ public class MainGUI extends JFrame implements ActionListener{
             }
         }else if(e.getSource() == btnSintactico)
         {
+            AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
             analizadorSintactico.analisisSintactico(pila);
         }
     }
