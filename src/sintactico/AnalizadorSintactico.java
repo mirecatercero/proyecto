@@ -15,6 +15,8 @@ import main.MainGUI;
 public class AnalizadorSintactico {
     Producciones producciones = new Producciones();
     Lexema lActual, lAnterior;
+    int llApertura = 0, llCierre = 0;
+    int pApertura = 0, pCierre = 0;
     
     public boolean analisisSintactico(Stack<Lexema> pila)
     {
@@ -23,6 +25,16 @@ public class AnalizadorSintactico {
             String mensaje = "Simón todo chido todo ok saca las guamas";
         boolean correcto = true;
         lActual = pila.pop();
+        
+        if(lActual.getID() == 31)
+            llApertura++;
+        if(lActual.getID() == 32)
+            llCierre++;
+        if(lActual.getID() == 33)
+            pApertura++;
+        if(lActual.getID() == 34)
+            pCierre++;
+        
         while(!pila.empty() && MainGUI.pila.size() >= 2)
         {
             lAnterior = pila.peek();
@@ -39,6 +51,14 @@ public class AnalizadorSintactico {
                 lActual = pila.pop();
                 lAnterior = pila.peek();
             }
+            if(lActual.getID() == 31)
+                llApertura++;
+            if(lActual.getID() == 32)
+                llCierre++;
+            if(lActual.getID() == 33)
+                pApertura++;
+            if(lActual.getID() == 34)
+                pCierre++;
         }
         if(producciones.producciones[lActual.getID()][lAnterior.getID()] == 0)
         {
@@ -47,9 +67,14 @@ public class AnalizadorSintactico {
             lActual = pila.pop();
             lAnterior = pila.peek();
         }
+            
         //lActual = lAnterior;
         lAnterior = pila.pop();
-        if(producciones.producciones[lActual.getID()][lAnterior.getID()] == 0 || lAnterior.getID() != 12)
+            System.out.println(llApertura);
+            System.out.println(llCierre);
+            System.out.println(pApertura);
+            System.out.println(pCierre);
+        if(producciones.producciones[lActual.getID()][lAnterior.getID()] == 0 || lAnterior.getID() != 12 || pApertura != pCierre || llApertura != llCierre)
         {
             mensaje = "Todo mal";
             correcto = false;
