@@ -15,11 +15,20 @@ import main.MainGUI;
 public class AnalizadorSintactico {
     Producciones producciones = new Producciones();
     Lexema lActual, lAnterior;
-    int llApertura = 0, llCierre = 0;
-    int pApertura = 0, pCierre = 0;
+    
+    int llApertura, llCierre;
+    int pApertura, pCierre;
+    
+    public AnalizadorSintactico()
+    {
+        this.llApertura = 0;
+        this.llCierre = 0;
+        this.pApertura = 0;
+        this.pCierre = 0;
+    }
     
     public boolean analisisSintactico(Stack<Lexema> pila)
-    {
+    {   
         if(pila.size() >= 3)
         {
             String mensaje = "Simón todo chido todo ok saca las guamas";
