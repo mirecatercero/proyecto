@@ -15,6 +15,8 @@ import main.MainGUI;
 public class AnalizadorSintactico {
     Producciones producciones = new Producciones();
     Lexema lActual, lAnterior;
+    Stack<Lexema> respaldo;
+    ForStructure forStructure = new ForStructure();
     
     int llApertura, llCierre;
     int pApertura, pCierre;
@@ -31,18 +33,20 @@ public class AnalizadorSintactico {
     {   
         if(pila.size() >= 3)
         {
+            boolean buscaciclo = false;
+            boolean estructura = false;
             String mensaje = "Simón todo chido todo ok saca las guamas";
-        boolean correcto = true;
-        lActual = pila.pop();
+            boolean correcto = true;
+            lActual = pila.pop();
         
-        if(lActual.getID() == 31)
-            llApertura++;
-        if(lActual.getID() == 32)
-            llCierre++;
-        if(lActual.getID() == 33)
-            pApertura++;
-        if(lActual.getID() == 34)
-            pCierre++;
+            if(lActual.getID() == 31)
+                llApertura++;
+            if(lActual.getID() == 32)
+                llCierre++;
+            if(lActual.getID() == 33)
+                pApertura++;
+            if(lActual.getID() == 34)
+                pCierre++;
         
         while(!pila.empty() && MainGUI.pila.size() >= 2)
         {
@@ -67,8 +71,29 @@ public class AnalizadorSintactico {
             if(lActual.getID() == 33)
                 pApertura++;
             if(lActual.getID() == 34)
+            {
+                buscaciclo = true;
                 pCierre++;
+                respaldo =(Stack<Lexema>) pila.clone();
+                forStructure.q0(respaldo);
+                if(forStructure.checkStatus())
+                {
+                    estructura = true;
+                    pApertura++;
+                    forStructure.fixStack(pila);
+                    lActual = pila.pop();
+                    lAnterior = pila.peek();
+                    forStructure.resetStatus();
+                }
+            }
         }
+        
+        if(buscaciclo && !estructura)
+        {
+            mensaje = "Todo mal";
+            correcto = false;
+        }
+        
         if(producciones.producciones[lActual.getID()][lAnterior.getID()] == 0)
         {
             mensaje = "Todo mal";

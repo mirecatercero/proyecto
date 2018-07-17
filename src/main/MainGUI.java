@@ -49,12 +49,12 @@ import sintactico.Lexema;
  * @author Jose
  */
 public class MainGUI extends JFrame implements ActionListener{
-    public static JTextArea txtSalida;
+    public static JTextArea txtSalida, txtAnalisis, txtTraza;
     JMenuBar menuBar;
     JMenu menuArchivo, menuAyuda;
     JMenuItem menuAbrir;
     JButton btnLexico, btnSintactico, btnSemantico, btnLimpiar;
-    JScrollPane spCode, spSalida;
+    JScrollPane spCode, spSalida, spAnalisis, spTraza;
     RSyntaxTextArea txtCode;
     
     String[] nombresColumnas = {"Token", "Tipo", "Longitud", "Valor", "Categoria"};
@@ -143,6 +143,11 @@ public class MainGUI extends JFrame implements ActionListener{
         }else if(e.getSource() == btnSintactico)
         {
             AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
+            //while(!pila.empty())
+            //{
+                //Lexema l = pila.pop();
+                //System.out.println(l.getToken());
+            //}
             analizadorSintactico.analisisSintactico(pila);
         }
     }
@@ -202,18 +207,33 @@ public class MainGUI extends JFrame implements ActionListener{
     public void panelInferior()
     {
         JPanel panelInferior = new JPanel();
-        panelInferior.setLayout(new GridLayout(1, 1));
+        panelInferior.setLayout(new GridLayout(2, 2));
         panelInferior.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 10));
         panelInferior.setBackground(Color.white);
         
-        txtSalida = new JTextArea(8, 0);
+        txtSalida = new JTextArea(4, 0);
         spSalida = new JScrollPane(txtSalida);
         spSalida.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        txtAnalisis = new JTextArea(4, 0);
+        spAnalisis = new JScrollPane(txtAnalisis);
+        spAnalisis.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        txtAnalisis.setEditable(false);
         
         txtSalida.setForeground(Color.red);
         txtSalida.setEditable(false);
         
+        txtTraza = new JTextArea(4, 0);
+        spTraza = new JScrollPane(txtTraza);
+        spTraza.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        txtTraza.setEditable(false);
+        
+        
         panelInferior.add(spSalida);
+        panelInferior.add(spAnalisis);
+        panelInferior.add(spTraza);
         this.getContentPane().add(panelInferior, BorderLayout.SOUTH);
     }
     
