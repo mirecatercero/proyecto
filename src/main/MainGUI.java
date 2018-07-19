@@ -53,7 +53,7 @@ public class MainGUI extends JFrame implements ActionListener{
     JMenuBar menuBar;
     JMenu menuArchivo, menuAyuda;
     JMenuItem menuAbrir;
-    JButton btnLexico, btnSintactico, btnSemantico, btnLimpiar;
+    JButton btnLexico, btnSintactico, btnSemantico, btnLimpiar, btnPrueba;
     JScrollPane spCode, spSalida, spAnalisis, spTraza;
     RSyntaxTextArea txtCode;
     
@@ -81,11 +81,12 @@ public class MainGUI extends JFrame implements ActionListener{
     TablaSimbolos manejaTabla = new TablaSimbolos();
     
     public static Stack<Lexema> pila = new Stack<Lexema>();
+    Stack<Lexema> invertedStack = new Stack<Lexema>();
     public static String lexemas = "";
     
     public MainGUI()
     {
-        this.setTitle("Analizador Léxico");
+        this.setTitle("Analizador Léxico CHNY++");
         this.setSize(900, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -143,12 +144,30 @@ public class MainGUI extends JFrame implements ActionListener{
         }else if(e.getSource() == btnSintactico)
         {
             AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
-            //while(!pila.empty())
-            //{
-                //Lexema l = pila.pop();
-                //System.out.println(l.getToken());
-            //}
-            analizadorSintactico.analisisSintactico(pila);
+            invertStack();
+            analizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
+            txtSalida.setText(txtSalida.getText() + "\n" + analizadorSintactico.getErrors());
+            
+        }else if(e.getSource() == btnPrueba)
+        {
+            String prueba = "class \n" +
+                            "{\n" +
+                            "const int constante = 155;\n" +
+                            "int x = 1;\n" +
+                            "float pi = 3.14;\n" +
+                            "String cadena = \"Hola\";\n" +
+                            "if( x <= 15)\n" +
+                            "{\n" +
+                            "for( int x = 0; x > pi ; i ++)\n" +
+                            "{\n" +
+                            "while(23 > x && i == 1)\n" +
+                            "{\n" +
+                            "int cont = a + 1 * 5;\n" +
+                            "}\n" +
+                            "}\n" +
+                            "} \n" +
+                            "}";
+            txtCode.setText(prueba);
         }
     }
     
@@ -190,14 +209,18 @@ public class MainGUI extends JFrame implements ActionListener{
         btnLexico     = new JButton("Léxico");
         btnSintactico = new JButton("Sintáctico");
         btnSemantico  = new JButton("Semántico");
+        btnPrueba = new JButton("Código prueba");
         btnLimpiar = new JButton("Limpiar");
         
         btnLexico.addActionListener(this);
         btnSintactico.addActionListener(this);
+        btnPrueba.addActionListener(this);
+        btnLimpiar.addActionListener(this);
         
         panelSuperior1.add(btnLexico);
         panelSuperior1.add(btnSintactico);
         panelSuperior1.add(btnSemantico);
+        panelSuperior1.add(btnPrueba);
         panelSuperior1.add(btnLimpiar);
         
         panelSuperior.add(panelSuperior1, BorderLayout.WEST);
@@ -230,6 +253,7 @@ public class MainGUI extends JFrame implements ActionListener{
         
         txtTraza.setEditable(false);
         
+        String reglas = "";
         
         panelInferior.add(spSalida);
         panelInferior.add(spAnalisis);
@@ -322,7 +346,6 @@ public class MainGUI extends JFrame implements ActionListener{
                         pila.push(lexema);
                     }
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
-                    registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
                     {
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
@@ -365,7 +388,7 @@ public class MainGUI extends JFrame implements ActionListener{
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
                     }
-                }else if(enteros.qo(token, 0))//si el token analizado es un numero entero, lo mete a la tabla
+                }else if(enteros.qo(token, 0, linea))//si el token analizado es un numero entero, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "int", "4", "", "DG");
@@ -374,7 +397,7 @@ public class MainGUI extends JFrame implements ActionListener{
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
                          manejaTabla.escribir(registro);
                     }
-                }else if(flotantes.q0(token, 0))//si el token analizado es un numero con punto flotante, lo mete a la tabla
+                }else if(flotantes.q0(token, 0, linea))//si el token analizado es un numero con punto flotante, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "float", "8", "", "DG");
@@ -393,7 +416,7 @@ public class MainGUI extends JFrame implements ActionListener{
                          manejaTabla.escribir(registro);
                     }
                 }
-                else if(cadenas.qo(token, token.length()))//si el token analizado es una cadena, lo mete a la tabla
+                else if(cadenas.qo(token, token.length(), linea))//si el token analizado es una cadena, lo mete a la tabla
                 {
                     clave = hash.hash(token);
                     registro = new Registro(clave, token, "String", "", "", "CA");
@@ -411,6 +434,15 @@ public class MainGUI extends JFrame implements ActionListener{
         }catch(Exception e)
         {
             e.printStackTrace();
+        }
+    }
+    
+    public void invertStack()
+    {
+        while(!pila.isEmpty())
+        {
+            Lexema lexema = pila.pop();
+            invertedStack.push(lexema);
         }
     }
     

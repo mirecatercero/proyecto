@@ -15,32 +15,32 @@ import main.MainGUI;
 public class Flotantes {
     Lexema lexema;
     
-    public boolean q0(String c, int pos)
+    public boolean q0(String c, int pos, int l)
     {
         if(pos < c.length())
         {
             switch(c.substring(pos, pos + 1))
             {
                 case "0":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "1":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "2":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "3":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "4":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "5":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "6":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "7":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "8":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "9":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 default:
                     return false;
             }
@@ -48,34 +48,34 @@ public class Flotantes {
         return false;
     }
     
-    private boolean q1(String c, int pos)
+    private boolean q1(String c, int pos, int l)
     {
         if(pos < c.length())
         {
             switch(c.substring(pos, pos + 1))
             {
                 case "0":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "1":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "2":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "3":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "4":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "5":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "6":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "7":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "8":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "9":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case ".":
-                    return q2(c, pos + 1);
+                    return q2(c, pos + 1, l);
                 default:
                     return false;
             }
@@ -86,32 +86,32 @@ public class Flotantes {
         return true;
     }
     
-    private boolean q2(String c, int pos)
+    private boolean q2(String c, int pos, int l)
     {
                 if(pos < c.length())
         {
             switch(c.substring(pos, pos + 1))
             {
                 case "0":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "1":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "2":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "3":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "4":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "5":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "6":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "7":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "8":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 case "9":
-                    return q1(c, pos + 1);
+                    return q1(c, pos + 1, l);
                 default:
                     return false;
             }
