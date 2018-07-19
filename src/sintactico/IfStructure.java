@@ -11,7 +11,7 @@ import java.util.Stack;
  *
  * @author Jose
  */
-public class WhileStructure {
+public class IfStructure {
     boolean aceptado;
     Lexema lexema;
     ConditionStructure conditionStructure = new ConditionStructure();
@@ -22,20 +22,18 @@ public class WhileStructure {
         if(!pila.empty())
         {
             lexema = pila.pop();
-            if(lexema.getID() == 33)
+            if(lexema.getID() == 34)
                 q1(pila, mensaje);
         }
         return aceptado;
     }
-
     private boolean q1(Stack<Lexema> pila, String mensaje)
     {
         aceptado = false;
         if(!pila.empty())
             conditionStructure.q0(pila, mensaje);
         if(conditionStructure.checkStatus())
-            aceptado = true;
-        else mensaje += "Error de sintaxis en linea " + lexema.getLinea();
+            q1(pila, mensaje);
         return aceptado;
     }
 //    
@@ -45,9 +43,9 @@ public class WhileStructure {
 //        if(!pila.empty())
 //        {
 //            lexema = pila.pop();
-//            if(lexema.getID() == 6)
+//            if(lexema.getID() == 7)
 //                aceptado = true;
-//            else mensaje += "Error de sintaxis en linea " + lexema.getLinea();
+//            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
 //        }
 //        return aceptado;
 //    }

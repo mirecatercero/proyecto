@@ -14,7 +14,7 @@ import main.MainGUI;
  */
 public class Cadenas {
     Lexema lexema;
-    public boolean qo(String c, int pos)
+    public boolean qo(String c, int pos, int l)
     {   
         if(c.length() != 0)
         {
@@ -27,7 +27,7 @@ public class Cadenas {
                 int valid = cadena.indexOf("\"");
                 if (valid ==-1)
                 {
-                    lexema = new Lexema(39, cadena, 0);
+                    lexema = new Lexema(39, cadena, l);
                     MainGUI.lexemas += lexema.getID() + " ";
                     MainGUI.pila.push(lexema);
                     return true;
