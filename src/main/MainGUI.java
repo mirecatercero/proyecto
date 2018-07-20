@@ -346,6 +346,7 @@ public class MainGUI extends JFrame implements ActionListener{
                         pila.push(lexema);
                     }
                     clave = hash.hash(Character.toString(codigo.charAt(i)));
+                    registro = new Registro(clave, Character.toString(codigo.charAt(i)), "", "", "", "DE");
                     if (!manejaTabla.buscar(registro) || !buscaTabla(tableModel, registro))
                     {
                          agregarDatosTabla(registro.getToken(), registro.getTipo(), registro.getLongitud(), registro.getValor(), registro.getCategoria());
