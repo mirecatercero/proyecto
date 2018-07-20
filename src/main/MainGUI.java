@@ -247,7 +247,7 @@ public class MainGUI extends JFrame implements ActionListener{
         txtSalida.setForeground(Color.red);
         txtSalida.setEditable(false);
         
-        txtTraza = new JTextArea(4, 0);
+        txtTraza = new JTextArea(10, 0);
         spTraza = new JScrollPane(txtTraza);
         spTraza.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         

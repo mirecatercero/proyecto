@@ -280,6 +280,7 @@ public class AnalizadorSintactico {
                 
                 if(producciones.producciones[lActual.getID()][lSiguiente.getID()] == 0)
                 {
+                    System.out.println("Todo mal alv te vas a morir solo pobre y feo");
                     correcto = false;
                     error += "Error de sintaxis en la linea " + lActual.getLinea();
                     lActual = pila.pop();

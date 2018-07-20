@@ -295,7 +295,7 @@ public class ConditionStructure {
     
     public void fixStack(Stack<Lexema> pila, int cont)
     {
-        for(int i = 0; i < cont + 1; i++)
+        for(int i = 0; i < cont; i++)
         {
             pila.pop();
         }
