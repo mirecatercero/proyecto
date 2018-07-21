@@ -123,45 +123,22 @@ public class AnalizadorSintactico {
                             }
                         }
                     }
-                
-//                    if(!pila.empty())
-//                    {
-//                        lSiguiente = pila.pop();
-////                        if(lSiguiente.getID() == 31)
-////                            llApertura++;
-////                        if(lSiguiente.getID() == 32)
-////                            llCierre++;
-////                        if(lSiguiente.getID() == 33)
-////                            pApertura++;
-////                        if(lSiguiente.getID() == 34)
-////                            pCierre++;
-//                    }
-//                    
-////                    if(lActual.getID() == 31)
-////                        llApertura++;
-////                    if(lActual.getID() == 32)
-////                        llCierre++;
-////                    if(lActual.getID() == 33)
-////                        pApertura++;
-////                    if(lActual.getID() == 34)
-////                        pCierre++;
-                    
-//                    if(lActual.getID() == 39)
-//                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
-//                    else
-//                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
-//                    buscaReglas(lActual, txtTraza);
                     
                     String m = "";
                     
                     System.out.println(llApertura + " " + llCierre + " " + pApertura + " " + pCierre);
-                    if(!correcto)
-                        m = "Análiis sintáctico finalizado con errores";
-                    else m = "Análisis sintáctico finalizado correctamente";
                     
                     if(llApertura != llCierre || pApertura != pCierre)
-                        txtTraza.setText(txtTraza.getText() + "\n" + "Análiis sintáctico finalizado con errores. El número de llaves de apertura/cierre y paréntesis de apertura/cierre no coincide");
-                    else txtTraza.setText(txtTraza.getText() + "\n" + "Análisis sintáctico finalizado correctamente");
+                    {
+                        correcto = false;
+                        m += "Análiis sintáctico finalizado con errores. El número de llaves de apertura/cierre y paréntesis de apertura/cierre no coincide";
+                    }
+                    
+                    if(!correcto)
+                        m += "Análiis sintáctico finalizado con errores" + "\n";
+                    else m += "Análisis sintáctico finalizado correctamente" + "\n";
+                        //txtTraza.setText(txtTraza.getText() + "\n" + "Análiis sintáctico finalizado con errores. El número de llaves de apertura/cierre y paréntesis de apertura/cierre no coincide");
+                    txtTraza.setText(txtTraza.getText() + "\n" + m);
                 }
             }
             else txtTraza.setText("Error de sintaxis: programa no comienza con la palabra reservada class. El análisis sintáctico no será llevado a cabo");

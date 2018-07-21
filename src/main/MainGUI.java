@@ -32,6 +32,10 @@ import chny.lexico.Identificadores;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Stack;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 import misc.Registro;
 import misc.Hash;
 import misc.TablaSimbolos;
@@ -122,6 +126,8 @@ public class MainGUI extends JFrame implements ActionListener{
         });
         
         manejaTabla.limpiaArchivo();
+        
+        System.out.println("\u001B31;1mhello world!");
     }
     
         @Override
@@ -260,6 +266,7 @@ public class MainGUI extends JFrame implements ActionListener{
         spSalida = new JScrollPane(txtSalida);
         spSalida.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         
+        
         txtAnalisis = new JTextArea(4, 0);
         spAnalisis = new JScrollPane(txtAnalisis);
         spAnalisis.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -271,6 +278,8 @@ public class MainGUI extends JFrame implements ActionListener{
         
         txtTraza = new JTextArea(10, 0);
         txtTraza.setText(s);
+        
+        
         spTraza = new JScrollPane(txtTraza);
         spTraza.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         
