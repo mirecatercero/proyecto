@@ -23,6 +23,7 @@ public class AnalizadorSintactico {
     ForStructure forStructure = new ForStructure();
     WhileStructure whileStructure = new WhileStructure();
     IfStructure IfStructure = new IfStructure();
+    ConditionDecAsig conditionDecAsig = new ConditionDecAsig();
     
     int llApertura, llCierre;
     int pApertura, pCierre;
@@ -252,7 +253,8 @@ public class AnalizadorSintactico {
                         else
                             txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken());
                         buscaReglas(lActual, txtTraza);
-                        lSiguiente = pila.peek();
+                        if(!pila.empty())
+                            lSiguiente = pila.peek();
                     }
                 }
                 
@@ -271,6 +273,7 @@ public class AnalizadorSintactico {
                         else
                             txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken());
                         buscaReglas(lActual, txtTraza);
+                        if(!pila.empty())
                         lSiguiente = pila.peek();
                     }
                 }
@@ -282,23 +285,19 @@ public class AnalizadorSintactico {
                 {
                     System.out.println("Todo mal alv te vas a morir solo pobre y feo");
                     correcto = false;
-                    error += "Error de sintaxis en la linea " + lActual.getLinea();
+                    error += "Error de sintaxis en la linea " + lActual.getLinea() + ", cerca de " + lActual.getToken() + "\n";
                     lActual = pila.pop();
                     if(lActual.getID() == 39)
                         txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
                     else
                         txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
                     buscaReglas(lActual, txtTraza);
+                    if(!pila.empty())
                     lSiguiente = pila.peek();
                 }
             }
-            
-            if(lActual.getID() == 39)
-                txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
-            else
-                txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
-            buscaReglas(lActual, txtTraza);
-            lSiguiente = pila.pop();
+            if(!pila.empty())
+                lSiguiente = pila.pop();
         }
     }
     
