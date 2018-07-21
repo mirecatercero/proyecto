@@ -49,7 +49,7 @@ public class AnalizadorSintactico {
                     boolean correcto = true;
                     
                     
-                    while(!pila.empty() && pila.size() >= 2)
+                    while(!pila.empty() && pila.size() >= 1)
                     {   
                         lActual = pila.pop();
                         
@@ -66,8 +66,10 @@ public class AnalizadorSintactico {
                             txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
                         else
                             txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
-                            buscaReglas(lActual, txtTraza);
-                        lSiguiente = pila.peek();                
+                        buscaReglas(lActual, txtTraza);
+                        
+                        if(!pila.empty())
+                            lSiguiente = pila.peek();                
                         
                         if(lActual.getID() == 5)
                         {
@@ -111,41 +113,44 @@ public class AnalizadorSintactico {
                         if(buscaciclo && !estructura)
                             correcto = false;
                         
-                        if(producciones.producciones[lActual.getID()][lSiguiente.getID()] == 0)
+                        if(lSiguiente != null)
                         {
-                            s = "ya valio";
-                            correcto = false;
-                            error += "Error de sintaxis en la linea " + lActual.getLinea() + ", cerca de " + lActual.getToken() + "\n";
+                            if(producciones.producciones[lActual.getID()][lSiguiente.getID()] == 0)
+                            {
+                                s = "ya valio";
+                                correcto = false;
+                                error += "Error de sintaxis en la linea " + lActual.getLinea() + ", cerca de " + lActual.getToken() + "\n";
+                            }
                         }
                     }
                 
-                    if(!pila.empty())
-                    {
-                        lSiguiente = pila.pop();
-                        if(lSiguiente.getID() == 31)
-                            llApertura++;
-                        if(lSiguiente.getID() == 32)
-                            llCierre++;
-                        if(lSiguiente.getID() == 33)
-                            pApertura++;
-                        if(lSiguiente.getID() == 34)
-                            pCierre++;
-                    }
+//                    if(!pila.empty())
+//                    {
+//                        lSiguiente = pila.pop();
+////                        if(lSiguiente.getID() == 31)
+////                            llApertura++;
+////                        if(lSiguiente.getID() == 32)
+////                            llCierre++;
+////                        if(lSiguiente.getID() == 33)
+////                            pApertura++;
+////                        if(lSiguiente.getID() == 34)
+////                            pCierre++;
+//                    }
+//                    
+////                    if(lActual.getID() == 31)
+////                        llApertura++;
+////                    if(lActual.getID() == 32)
+////                        llCierre++;
+////                    if(lActual.getID() == 33)
+////                        pApertura++;
+////                    if(lActual.getID() == 34)
+////                        pCierre++;
                     
-                    if(lActual.getID() == 31)
-                        llApertura++;
-                    if(lActual.getID() == 32)
-                        llCierre++;
-                    if(lActual.getID() == 33)
-                        pApertura++;
-                    if(lActual.getID() == 34)
-                        pCierre++;
-                    
-                    if(lActual.getID() == 39)
-                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
-                    else
-                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
-                    buscaReglas(lActual, txtTraza);
+//                    if(lActual.getID() == 39)
+//                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token \"" + lActual.getToken() + "\"\n");
+//                    else
+//                        txtTraza.setText(txtTraza.getText() + "\n" + "Analizando token " + lActual.getToken() + "\n");
+//                    buscaReglas(lActual, txtTraza);
                     
                     String m = "";
                     
