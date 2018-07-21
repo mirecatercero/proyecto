@@ -153,23 +153,29 @@ public class MainGUI extends JFrame implements ActionListener{
         }else if(e.getSource() == btnPrueba)
         {
             String prueba = "class \n" +
-                            "{\n" +
-                            "String s, t, u = \"Adios\", v = \"Khé\";\n" +
-                            "const int constante = 155;\n" +
-                            "int x = 1;\n" +
-                            "float pi = 3.14;\n" +
-                            "String cadena = \"Hola\";\n" +
-                            "if( x <= 15)\n" +
-                            "{\n" +
-                            "for( int x = 0; x > pi ; i ++)\n" +
-                            "{\n" +
-                            "while(23 > x && i == 1)\n" +
-                            "{\n" +
-                            "int cont = a + 1 * 5;\n" +
-                            "}\n" +
-                            "}\n" +
-                            "} \n" +
-                            "}";
+"{\n" +
+"String s, t, u = \"Adios\", v = \"Khé\";\n" +
+"const int constante = 155;\n" +
+"int x = 1;\n" +
+"float pi = 3.14;\n" +
+"String cadena = \"Hola\";\n" +
+"if( x <= 15)\n" +
+"{\n" +
+"boolean bandera = true;\n" +
+"for( int x = 0; x > pi ; i ++)\n" +
+"{\n" +
+"while(23 > x && i == 1)\n" +
+"{\n" +
+"int cont = a + 1 * 5;\n" +
+"}\n" +
+"}\n" +
+"}\n" +
+"else\n" +
+"{\n" +
+"x = cont / 10;\n" +
+"print(u);\n" +
+"} \n" +
+"}";
             txtCode.setText(prueba);
         }
     }
