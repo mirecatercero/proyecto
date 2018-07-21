@@ -120,7 +120,17 @@ public class AnalizadorSintactico {
                     }
                 
                     if(!pila.empty())
+                    {
                         lSiguiente = pila.pop();
+                        if(lSiguiente.getID() == 31)
+                            llApertura++;
+                        if(lSiguiente.getID() == 32)
+                            llCierre++;
+                        if(lSiguiente.getID() == 33)
+                            pApertura++;
+                        if(lSiguiente.getID() == 34)
+                            pCierre++;
+                    }
                     
                     if(lActual.getID() == 31)
                         llApertura++;
