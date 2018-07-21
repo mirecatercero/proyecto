@@ -18,7 +18,7 @@ public class WhileStructure {
     ConditionStructure conditionStructure = new ConditionStructure();
     SyntacticAnlysisTable syntacticAnlysisTable = new SyntacticAnlysisTable();
     
-    public boolean q0(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    public boolean q0(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -31,19 +31,22 @@ public class WhileStructure {
             buscaReglas(lexema, txtTraza, reglas);
             
             if(lexema.getID() == 33)
-                q1(pila, mensaje, txtTraza, reglas);
+            {
+                pApertura++;
+                q1(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            }
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
 
-    private boolean q1(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q1(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
-            conditionStructure.q0(pila, mensaje, txtTraza, reglas);
+            conditionStructure.q0(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
         if(conditionStructure.checkStatus())
             aceptado = true;
-        else mensaje += "Error de sintaxis en linea " + lexema.getLinea();
         return aceptado;
     }
 //    

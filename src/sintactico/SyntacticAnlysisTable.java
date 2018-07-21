@@ -11,7 +11,7 @@ package sintactico;
  */
 public class SyntacticAnlysisTable {
     
-    String[][] tas = 
+    public String[][] tas = 
     {                       {"class", "=", "const", "int", "float", "String", "boolean", "if", "while", "for", ",", ";", "<", ">", "<=", ">=", "!=", "==", "&&", "||", "val", "id", "{", "}", "(", ")", "+", "-", "*", "/", "else", "++", "--"},
      /*PRINCIPAL*/          {"PRINCIPAL -> class PRINCIPAl'", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""},
      /*PRINCIPAL'*/         {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "PRINCIPAL' -> { CONTENIDO }", "", "", "", "", "" , "", "", "", "", ""},

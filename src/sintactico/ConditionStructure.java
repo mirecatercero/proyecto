@@ -18,7 +18,7 @@ public class ConditionStructure {
     int cont = 0;
     SyntacticAnlysisTable syntacticAnlysisTable = new SyntacticAnlysisTable();
     
-    public boolean q0(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    public boolean q0(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -32,15 +32,15 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 37 || lexema.getID() == 38 || lexema.getID() == 0)//lee un entero, un real o un identificador
-                q1(pila, mensaje, txtTraza, reglas);
+                q1(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() == 8 || lexema.getID() == 9)//lee true o false
-                q2(pila, mensaje, txtTraza, reglas);
+                q2(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q1(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q1(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -55,15 +55,15 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() >= 21 && lexema.getID() <= 24)//lee un operador aritmético0
-                q3(pila, mensaje, txtTraza, reglas);
+                q3(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() == 14 || lexema.getID() == 15 || lexema.getID() == 17 || lexema.getID() == 18 || lexema.getID() == 25 || lexema.getID() == 26)//lee un operador relacional
-                q4(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q4(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q2(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q2(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -78,13 +78,13 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 18)
-                q8(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q8(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q3(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q3(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -98,13 +98,13 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 37 || lexema.getID() == 38 || lexema.getID() == 0)//lee un entero, un real o un identificador
-                q1(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q1(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q4(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q4(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -118,13 +118,13 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 37 || lexema.getID() == 38 || lexema.getID() == 0 || lexema.getID() == 8 || lexema.getID() == 9)//lee un entero, un real o un identificador
-                q5(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q5(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q5(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q5(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -138,17 +138,20 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 19 || lexema.getID() == 20)// lee || o &&
-                q0(pila, mensaje, txtTraza, reglas);
+                q0(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() >= 21 && lexema.getID() <= 24)//lee un operador aritmético
-                q6(pila, mensaje, txtTraza, reglas);
+                q6(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() == 34)
+            {
+                pCierre++;
                 aceptado = true;
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+            }
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q6(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q6(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -162,13 +165,13 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 37 || lexema.getID() == 38 || lexema.getID() == 0)
-                q7(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q7(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return false;
     }
     
-    private boolean q7(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q7(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -184,15 +187,15 @@ public class ConditionStructure {
             if(lexema.getID() == 34)
                 aceptado = true;
             else if(lexema.getID() == 19 || lexema.getID() == 20)
-                q0(pila, mensaje, txtTraza, reglas);
+                q0(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() >= 21 && lexema.getID() <= 24)//lee un operador aritmético
-                q6(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q6(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q8(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q8(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -206,13 +209,13 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 0 || lexema.getID() == 8 || lexema.getID() == 9)
-                q9(pila, mensaje, txtTraza, reglas);
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+                q9(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
     
-    private boolean q9(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas)
+    private boolean q9(Stack<Lexema> pila, String mensaje, JTextArea txtTraza, String reglas, int pApertura, int pCierre)
     {
         aceptado = false;
         if(!pila.empty())
@@ -226,10 +229,10 @@ public class ConditionStructure {
             
             cont++;
             if(lexema.getID() == 19 || lexema.getID() == 20)
-                q0(pila, mensaje, txtTraza, reglas);
+                q0(pila, mensaje, txtTraza, reglas, pApertura, pCierre);
             else if(lexema.getID() == 34)
                 aceptado = true;
-            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + "\n";
+            else mensaje += "Error de sintaxis en linea " + lexema.getLinea() + ", cerca de " + lexema.getToken() + "\n";
         }
         return aceptado;
     }
@@ -295,7 +298,7 @@ public class ConditionStructure {
     
     public void fixStack(Stack<Lexema> pila, int cont)
     {
-        for(int i = 0; i < cont; i++)
+        for(int i = 0; i < cont + 1; i++)
         {
             pila.pop();
         }
