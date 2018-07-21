@@ -37,6 +37,7 @@ import misc.Hash;
 import misc.TablaSimbolos;
 import sintactico.AnalizadorSintactico;
 import sintactico.Lexema;
+import sintactico.SyntacticAnlysisTable;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -87,7 +88,7 @@ public class MainGUI extends JFrame implements ActionListener{
     public MainGUI()
     {
         this.setTitle("Analizador Léxico CHNY++");
-        this.setSize(900, 750);
+        this.setSize(900, 2600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         //this.getContentPane().setBackground(Color.white);
@@ -134,6 +135,7 @@ public class MainGUI extends JFrame implements ActionListener{
                 limpiaTabla(tableModel);
                 manejaTabla.limpiaArchivo();
                 pila.clear();
+                txtAnalisis.setText("");
                 analisisLexico();
                 //analisisSintactico(pila);
                 //System.out.println(lexemas);
@@ -151,22 +153,29 @@ public class MainGUI extends JFrame implements ActionListener{
         }else if(e.getSource() == btnPrueba)
         {
             String prueba = "class \n" +
-                            "{\n" +
-                            "const int constante = 155;\n" +
-                            "int x = 1;\n" +
-                            "float pi = 3.14;\n" +
-                            "String cadena = \"Hola\";\n" +
-                            "if( x <= 15)\n" +
-                            "{\n" +
-                            "for( int x = 0; x > pi ; i ++)\n" +
-                            "{\n" +
-                            "while(23 > x && i == 1)\n" +
-                            "{\n" +
-                            "int cont = a + 1 * 5;\n" +
-                            "}\n" +
-                            "}\n" +
-                            "} \n" +
-                            "}";
+"{\n" +
+"String s, t, u = \"Adios\", v = \"Khé\";\n" +
+"const int constante = 155;\n" +
+"int x = 1;\n" +
+"float pi = 3.14;\n" +
+"String cadena = \"Hola\";\n" +
+"if( x <= 15)\n" +
+"{\n" +
+"boolean bandera = true;\n" +
+"for( int x = 0; x > pi ; i ++)\n" +
+"{\n" +
+"while(23 > x && i == 1)\n" +
+"{\n" +
+"int cont = a + 1 * 5;\n" +
+"}\n" +
+"}\n" +
+"}\n" +
+"else\n" +
+"{\n" +
+"x = cont / 10;\n" +
+"print(u);\n" +
+"} \n" +
+"}";
             txtCode.setText(prueba);
         }
     }
@@ -229,6 +238,19 @@ public class MainGUI extends JFrame implements ActionListener{
     
     public void panelInferior()
     {
+        SyntacticAnlysisTable tas = new SyntacticAnlysisTable();
+        String s = "";
+        
+        for (int x=0; x < tas.tas.length; x++)
+        {
+            for (int y=0; y < tas.tas[x].length; y++)
+            {
+                s += tas.tas[x][y];
+                if (y!=tas.tas[x].length-1) s += "\t";
+            }
+            s += "\n";
+        }
+        
         JPanel panelInferior = new JPanel();
         panelInferior.setLayout(new GridLayout(2, 2));
         panelInferior.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 10));
@@ -248,6 +270,7 @@ public class MainGUI extends JFrame implements ActionListener{
         txtSalida.setEditable(false);
         
         txtTraza = new JTextArea(10, 0);
+        txtTraza.setText(s);
         spTraza = new JScrollPane(txtTraza);
         spTraza.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         
