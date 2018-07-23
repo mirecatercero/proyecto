@@ -90,7 +90,7 @@ public class TablaSimbolos {
                             if((int) linea.charAt(i) != 0)
                                 token += Character.toString(linea.charAt(i));
                             i++;
-                        }while(Character.toString(linea.charAt(i)).equals("\""));
+                        }while(Character.toString(linea.charAt(i)).equals("\"") && i < linea.length() - 1);
                     }else
                     {
                         do
@@ -98,7 +98,7 @@ public class TablaSimbolos {
                             if((int) linea.charAt(i) != 0)
                                 token += Character.toString(linea.charAt(i));
                             i++;
-                        }while(!Character.toString(linea.charAt(i)).equals(" "));
+                        }while(!Character.toString(linea.charAt(i)).equals(" ") && i < linea.length() - 1);
                     }
                     if(token.indexOf(registro.getToken()) != -1)
                         return true;
