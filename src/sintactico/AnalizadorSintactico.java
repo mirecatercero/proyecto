@@ -80,6 +80,7 @@ public class AnalizadorSintactico {
                             {
                                 estructura = true;
                                 forStructure.fixStack(pila);
+                                forStructure.resetStatus();
                             }
                             else correcto = false;
                         }
@@ -93,6 +94,7 @@ public class AnalizadorSintactico {
                             {
                                 estructura = true;
                                 whileStructure.fixStack(pila);
+                                whileStructure.resetStatus();
                             }
                             else correcto = false;
                         }
@@ -101,27 +103,35 @@ public class AnalizadorSintactico {
                         {
                             buscaciclo = true;
                             respaldo = (Stack<Lexema>) pila.clone();
-                            IfStructure.q0(respaldo, error, txtTraza, reglas, pApertura, pCierre);
+                            IfStructure.q0(respaldo, this.error, txtTraza, reglas, pApertura, pCierre);
+                            System.out.println("Alv: " + error);
                             if(IfStructure.checkStatus())
                             {
                                 estructura = true;
                                 IfStructure.fixStack(pila);
+                                IfStructure.resetStatus();
                             }
-                            else correcto = false;
+                            else 
+                            {
+                                correcto = false;
+                                IfStructure.fixStack(pila);
+                                IfStructure.resetStatus();
+                            }
+                            respaldo = null;
                         }
                         
                         if(buscaciclo && !estructura)
                             correcto = false;
                         
-                        if(lSiguiente != null)
-                        {
-                            if(producciones.producciones[lActual.getID()][lSiguiente.getID()] == 0)
-                            {
-                                s = "ya valio";
-                                correcto = false;
-                                error += "Error de sintaxis en la linea " + lActual.getLinea() + ", cerca de " + lActual.getToken() + "\n";
-                            }
-                        }
+//                        if(lSiguiente != null)
+//                        {
+//                            if(producciones.producciones[lActual.getID()][lSiguiente.getID()] == 0)
+//                            {
+//                                s = "ya valio";
+//                                correcto = false;
+//                                error += "Error de sintaxis en la linea " + lActual.getLinea() + ", cerca de " + lActual.getToken() + "\n";
+//                            }
+//                        }
                     }
                     
                     String m = "";
@@ -131,7 +141,7 @@ public class AnalizadorSintactico {
                     if(llApertura != llCierre || pApertura != pCierre)
                     {
                         correcto = false;
-                        m += "Análiis sintáctico finalizado con errores. El número de llaves de apertura/cierre y paréntesis de apertura/cierre no coincide";
+                        m += "Análiis sintáctico finalizado con errores. El número de llaves de apertura/cierre y paréntesis de apertura/cierre no coincide\n";
                     }
                     
                     if(!correcto)

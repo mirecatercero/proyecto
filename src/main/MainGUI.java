@@ -41,6 +41,7 @@ import misc.Hash;
 import misc.TablaSimbolos;
 import sintactico.AnalizadorSintactico;
 import sintactico.Lexema;
+import sintactico.OtroAnalizadorSintactico;
 import sintactico.SyntacticAnlysisTable;
 
 /*
@@ -151,10 +152,13 @@ public class MainGUI extends JFrame implements ActionListener{
             }
         }else if(e.getSource() == btnSintactico)
         {
-            AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
+            OtroAnalizadorSintactico otroAnalizadorSintactico = new OtroAnalizadorSintactico();
+            //AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
             invertStack();
-            analizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
-            txtSalida.setText(txtSalida.getText() + "\n" + analizadorSintactico.getErrors());
+            otroAnalizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
+            txtSalida.setText(txtSalida.getText() + "\n" + otroAnalizadorSintactico.getErrors());
+            //analizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
+            //txtSalida.setText(txtSalida.getText() + "\n" + analizadorSintactico.getErrors());
             
         }else if(e.getSource() == btnPrueba)
         {
@@ -366,7 +370,8 @@ public class MainGUI extends JFrame implements ActionListener{
                 }else if(Character.toString(codigo.charAt(i)).equals("\t"))
                 {
                     i++;
-                    token += Character.toString(codigo.charAt(i));
+                    //if(!Character.toString(codigo.charAt(i)).equalsIgnoreCase("\t"))
+                        //token += Character.toString(codigo.charAt(i));
                 }
                 else if(delimitadores.validar(Character.toString(codigo.charAt(i)), linea))//si encuentra un delimitador, lo mete a la tabla de símbolos y analiza el token antes del delimitador
                 {
