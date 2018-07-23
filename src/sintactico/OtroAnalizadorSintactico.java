@@ -47,7 +47,6 @@ public class OtroAnalizadorSintactico {
             if(!pila.empty())
             {
                 lexema = pila.peek();
-                
                 txtTraza.setText(txtTraza.getText() + "\n" + "Analizando el token " + lexema.getToken() + "\n");
                 regla = syntacticAnlysisTable.buscaReglas(lexema, s);
             }
