@@ -55,6 +55,7 @@ public class OtroAnalizadorSintactico {
             if(!regla.equals("ERROR"))
             {
                 txtTraza.setText(txtTraza.getText() + "Regla a analizar: " + regla + "\n");
+                System.out.println("Analizando el pedo de : " + terminal + " " + s);
                 if(!regla.equals("E"))
                 {
                     reglaSeparada = regla.split(" -> ");
