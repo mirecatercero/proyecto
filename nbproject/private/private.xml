@@ -3,24 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/AnalizadorSintactico.java</file>
+            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/OtroAnalizadorSintactico.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/misc/TablaSimbolos.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/SyntacticAnlysisTable.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/chny/lexico/Flotantes.java</file>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/WhileStructure.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/misc/Registro.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/main/MainGUI.java</file>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/ForStructure.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/Producciones.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/chny/lexico/Identificadores.java</file>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/IfStructure.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/Archivos/Operadores.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/Archivos/Delimitadores.java</file>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/ConditionStructure.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/main/CHNY.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/Archivos/PalabrasReservadas.java</file>
             <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/chny/lexico/Enteros.java</file>
-            <file>file:/D:/Users/Jose/Documents/NetBeansProjects/proyecto/src/sintactico/ConditionDecAsig.java</file>
         </group>
     </open-files>
 </project-private>
