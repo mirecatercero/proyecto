@@ -39,6 +39,7 @@ public class OtroAnalizadorSintactico {
                     pila.pop();
                 if(!reglas.empty())
                     reglas.pop();
+                continue;
             }
             
             if(!reglas.empty())
