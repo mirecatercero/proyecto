@@ -31,6 +31,7 @@ import chny.lexico.Flotantes;
 import chny.lexico.Identificadores;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Stack;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
@@ -39,7 +40,6 @@ import javax.swing.text.StyleContext;
 import misc.Registro;
 import misc.Hash;
 import misc.TablaSimbolos;
-import sintactico.AnalizadorSintactico;
 import sintactico.Lexema;
 import sintactico.OtroAnalizadorSintactico;
 import sintactico.SyntacticAnlysisTable;
@@ -155,8 +155,21 @@ public class MainGUI extends JFrame implements ActionListener{
             OtroAnalizadorSintactico otroAnalizadorSintactico = new OtroAnalizadorSintactico();
             //AnalizadorSintactico analizadorSintactico = new AnalizadorSintactico();
             invertStack();
-            otroAnalizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
-            txtSalida.setText(txtSalida.getText() + "\n" + otroAnalizadorSintactico.getErrors());
+            ArrayList<Lexema> Codigo = new ArrayList<Lexema>();
+            while(!invertedStack.isEmpty())
+                Codigo.add(invertedStack.pop());
+            
+            otroAnalizadorSintactico.analisis(Codigo, txtAnalisis);
+            String error = otroAnalizadorSintactico.getErrors();
+            if (error.equals("")) {
+                txtTraza.setText("Analisis Sintactico Correcto!");
+            }
+            else {
+               txtTraza.setText(error);
+           }
+            //txtTraza.setText(otroAnalizadorSintactico.getErrors());
+            //otroAnalizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
+            //txtSalida.setText(txtSalida.getText() + "\n" + otroAnalizadorSintactico.getErrors());
             //analizadorSintactico.analisisSintactico(invertedStack, txtAnalisis);
             //txtSalida.setText(txtSalida.getText() + "\n" + analizadorSintactico.getErrors());
             
@@ -164,11 +177,9 @@ public class MainGUI extends JFrame implements ActionListener{
         {
             String prueba = "class \n" +
 "{\n" +
-"String s, t, u = \"Adios\", v = \"Khé\";\n" +
-"const int constante = 155;\n" +
+"int hola = 155;\n" +
 "int x = 1;\n" +
 "float pi = 3.14;\n" +
-"String cadena = \"Hola\";\n" +
 "if( x <= 15)\n" +
 "{\n" +
 "boolean bandera = true;\n" +
@@ -183,7 +194,6 @@ public class MainGUI extends JFrame implements ActionListener{
 "else\n" +
 "{\n" +
 "x = cont / 10;\n" +
-"print(u);\n" +
 "} \n" +
 "}";
             txtCode.setText(prueba);
@@ -251,12 +261,12 @@ public class MainGUI extends JFrame implements ActionListener{
         SyntacticAnlysisTable tas = new SyntacticAnlysisTable();
         String s = "";
         
-        for (int x=0; x < tas.tas.length; x++)
+        for (int x=0; x < tas.tabla.length; x++)
         {
-            for (int y=0; y < tas.tas[x].length; y++)
+            for (int y=0; y < tas.tabla[x].length; y++)
             {
-                s += tas.tas[x][y];
-                if (y!=tas.tas[x].length-1) s += "\t";
+                s += tas.tabla[x][y];
+                if (y!=tas.tabla[x].length-1) s += "\t";
             }
             s += "\n";
         }
